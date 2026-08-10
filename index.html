@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pop Ice — Segarnya Bikin Balik Lagi!</title>
+<meta name="description" content="Website pemesanan Pop Ice. Pilih rasa, masukkan keranjang, lalu pesan via WhatsApp.">
+<style>
+:root{--pink:#ff4f91;--purple:#7447e8;--dark:#251d35;--cream:#fff9f1;--muted:#746b80}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--cream);color:var(--dark)}
+a{text-decoration:none;color:inherit}button{font:inherit;border:0;cursor:pointer}.wrap{width:min(1120px,92%);margin:auto}
+nav{position:sticky;top:0;z-index:10;background:#fffdfbdd;backdrop-filter:blur(12px);border-bottom:1px solid #eee5ef}
+.nav{height:68px;display:flex;align-items:center;justify-content:space-between}.logo{font-weight:950;font-size:1.35rem;color:var(--purple)}.logo i{font-style:normal;color:var(--pink)}
+.links{display:flex;gap:22px;font-weight:750}.cart{background:var(--dark);color:#fff;padding:10px 16px;border-radius:999px;font-weight:850}
+.hero{padding:70px 0 50px;overflow:hidden}.heroGrid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.badge{display:inline-block;padding:8px 13px;border-radius:99px;background:#ffe0ed;color:#b71e5e;font-weight:850;font-size:.86rem}
+h1{font-size:clamp(2.7rem,6vw,5rem);line-height:.98;margin:17px 0}h1 span{color:var(--pink)}.lead{font-size:1.1rem;color:var(--muted);max-width:590px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.primary{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;padding:13px 20px;border-radius:14px;font-weight:900;box-shadow:0 10px 25px #7447e833}.secondary{background:#fff;border:1px solid #eee3ef;padding:13px 20px;border-radius:14px;font-weight:900}
+.visual{display:grid;place-items:center;min-height:340px}.cup{width:230px;height:250px;border-radius:32px 32px 60px 60px;background:linear-gradient(145deg,#ff79ad,#ff3e86);position:relative;box-shadow:0 30px 50px #ff4f9140;transform:rotate(-4deg)}.cup:before{content:"";position:absolute;left:-15px;top:-14px;width:260px;height:35px;background:#fff;border:8px solid #ff5a99;border-radius:50%}.cup:after{content:"POP ICE";position:absolute;left:34px;top:88px;color:white;font-weight:1000;font-size:2rem;text-shadow:0 3px #b91d5e}.straw{position:absolute;right:30px;top:-125px;width:18px;height:145px;background:#ffd84d;border-radius:12px;transform:rotate(10deg)}
+.section{padding:65px 0}.title{text-align:center;margin-bottom:28px}.title h2{font-size:2rem;margin:0 0 5px}.title p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:1px solid #eee6ef;border-radius:22px;padding:18px;box-shadow:0 8px 25px #38264d0a}.flavor{height:145px;border-radius:17px;display:grid;place-items:center;font-size:4.3rem}.c1{background:#ffe1ec}.c2{background:#e9ddff}.c3{background:#fff0a8}.c4{background:#ffd7d7}.c5{background:#dff6ff}.c6{background:#e7d4bd}.card h3{margin:14px 0 4px}.price{color:var(--purple);font-weight:900;margin-bottom:13px}.add{width:100%;padding:11px;background:var(--dark);color:#fff;border-radius:12px;font-weight:850}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.feature{background:#fff;border:1px solid #eee6ef;border-radius:20px;padding:22px}.feature b{display:block;margin:7px 0 3px}.feature span{font-size:2rem}
+.order{background:linear-gradient(135deg,#251d35,#4b3170);color:#fff;border-radius:30px;padding:35px}.orderGrid{display:grid;grid-template-columns:1fr auto;gap:25px;align-items:center}.order p{color:#ddd5e6}
+footer{padding:35px 0;text-align:center;color:var(--muted)}.float{position:fixed;right:18px;bottom:18px;background:#25d366;color:#fff;padding:13px 18px;border-radius:999px;font-weight:900;box-shadow:0 12px 30px #25d36645;z-index:20}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:30;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{background:#fff;width:min(560px,100%);border-radius:28px 28px 0 0;padding:25px;max-height:88vh;overflow:auto}.close{float:right;background:#f1ecf4;padding:8px 12px;border-radius:10px}.row{display:flex;justify-content:space-between;gap:15px;padding:11px 0;border-bottom:1px solid #eee}.total{font-size:1.2rem;font-weight:900;margin:18px 0}.field{width:100%;padding:12px;border:1px solid #ddd4df;border-radius:12px;margin:7px 0 12px}.checkout{width:100%;padding:14px;background:#25d366;color:#fff;border-radius:13px;font-weight:900}
+@media(max-width:800px){.links{display:none}.heroGrid,.orderGrid{grid-template-columns:1fr}.grid,.features{grid-template-columns:1fr 1fr}.hero{padding-top:45px}}
+@media(max-width:520px){.grid,.features{grid-template-columns:1fr}h1{font-size:3rem}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav"><a class="logo" href="#">Pop<i>Ice</i> 🍧</a><div class="links"><a href="#menu">Menu</a><a href="#why">Kenapa Kami</a><a href="#order">Pesan</a></div><button class="cart" onclick="openCart()">🛒 <span id="count">0</span></button></div></nav>
+
+<header class="hero"><div class="wrap heroGrid"><div>
+<span class="badge">🥤 Segar • Manis • Bikin Nagih</span>
+<h1>Segarnya <span>Pop Ice</span>, mood langsung naik!</h1>
+<p class="lead">Pilih rasa favoritmu, tambah topping kalau mau, lalu pesan. Simple, cepat, dan cocok diminum kapan aja.</p>
+<div class="cta"><a class="primary" href="#menu">Lihat Menu →</a><a class="secondary" href="#order">Cara Pesan</a></div>
+</div><div class="visual"><div class="cup"><div class="straw"></div></div></div></div></header>
+
+<section class="section" id="menu"><div class="wrap"><div class="title"><h2>Menu Favorit 🍹</h2><p>Pilih satu atau borong sekalian.</p></div><div class="grid" id="products"></div></div></section>
+
+<section class="section" id="why"><div class="wrap"><div class="title"><h2>Kenapa Pop Ice Kami?</h2><p>Dibuat untuk jadi minuman favoritmu.</p></div><div class="features">
+<div class="feature"><span>🧊</span><b>Segar</b><p>Disajikan dingin dan nikmat.</p></div>
+<div class="feature"><span>✨</span><b>Bisa Custom</b><p>Pilih rasa dan tambahkan topping favorit.</p></div>
+<div class="feature"><span>💬</span><b>Pesan Mudah</b><p>Checkout langsung lewat WhatsApp.</p></div>
+</div></div></section>
+
+<section class="section" id="order"><div class="wrap"><div class="order"><div class="orderGrid"><div><h2>Siap pesan? 🥤</h2><p>Masukkan pesanan ke keranjang lalu kirim detailnya lewat WhatsApp.</p></div><button class="primary" onclick="openCart()">Buka Keranjang →</button></div></div></div></section>
+<footer><div class="wrap">© 2026 Pop Ice • Dibuat dengan ❤️</div></footer>
+<a class="float" id="wa" target="_blank">💬 WhatsApp</a>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeCart()"><div class="sheet">
+<button class="close" onclick="closeCart()">Tutup</button><h3>Pesanan Kamu 🛒</h3><div id="items"></div><div class="total">Total: <span id="total">Rp0</span></div>
+<input class="field" id="name" placeholder="Nama kamu"><input class="field" id="note" placeholder="Catatan (contoh: tanpa es)">
+<button class="checkout" onclick="checkout()">Pesan via WhatsApp</button>
+</div></div>
+
+<script>
+/* GANTI NOMOR INI dengan WhatsApp tokomu. Format: 628xxxxxxxxxx */
+const WHATSAPP="6281234567890";
+const products=[
+{name:"Cokelat",price:5000,emoji:"🍫",cls:"c1"},{name:"Taro",price:5000,emoji:"🍠",cls:"c2"},
+{name:"Mangga",price:5000,emoji:"🥭",cls:"c3"},{name:"Strawberry",price:5000,emoji:"🍓",cls:"c4"},
+{name:"Vanilla Blue",price:5000,emoji:"🫐",cls:"c5"},{name:"Coffee",price:5000,emoji:"☕",cls:"c6"}];
+let cart=[];const rp=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n);
+document.getElementById("products").innerHTML=products.map((p,i)=>`<article class="card"><div class="flavor ${p.cls}">${p.emoji}</div><h3>Pop Ice ${p.name}</h3><div class="price">${rp(p.price)}</div><button class="add" onclick="add(${i})">+ Tambah</button></article>`).join("");
+function add(i){let x=cart.find(a=>a.name===products[i].name);x?x.qty++:cart.push({...products[i],qty:1});update()}
+function update(){count.textContent=cart.reduce((a,x)=>a+x.qty,0);items.innerHTML=cart.length?cart.map((x,i)=>`<div class="row"><div><b>${x.emoji} ${x.name}</b><br><small>${rp(x.price)} × ${x.qty}</small></div><div><button onclick="minus(${i})">−</button> <b>${x.qty}</b> <button onclick="plus(${i})">+</button></div></div>`).join(""):"<p style='color:#746b80'>Keranjang masih kosong.</p>";total.textContent=rp(cart.reduce((a,x)=>a+x.price*x.qty,0))}
+function plus(i){cart[i].qty++;update()}function minus(i){if(--cart[i].qty<=0)cart.splice(i,1);update()}
+function openCart(){modal.classList.add("show");update()}function closeCart(){modal.classList.remove("show")}
+function checkout(){if(!cart.length)return alert("Keranjang masih kosong.");let n=name.value.trim()||"Pelanggan",notev=note.value.trim()||"-",lines=cart.map(x=>`• ${x.name} x${x.qty} = ${rp(x.price*x.qty)}`).join("
+"),t=cart.reduce((a,x)=>a+x.price*x.qty,0),msg=`Halo! Saya mau pesan Pop Ice 😊
+
+Nama: ${n}
+
+Pesanan:
+${lines}
+
+Total: ${rp(t)}
+Catatan: ${notev}`;window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank")}
+wa.href=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Halo! Saya mau tanya tentang Pop Ice 😊")}`;update();
+</script>
+</body></html>
